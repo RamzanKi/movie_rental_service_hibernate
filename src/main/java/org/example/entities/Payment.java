@@ -2,8 +2,10 @@ package org.example.entities;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -32,7 +34,11 @@ public class Payment {
 
     @CreationTimestamp
     @Column(name = "payment_date")
-    private LocalDateTime createDate;
+    private LocalDateTime paymentDate;
+
+    @Column(name = "last_update")
+    @UpdateTimestamp
+    private Timestamp lastUpdate;
 
     public Short getId() {
         return id;
@@ -74,11 +80,19 @@ public class Payment {
         this.amount = amount;
     }
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
+    public LocalDateTime getPaymentDate() {
+        return paymentDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
+    public void setPaymentDate(LocalDateTime paymentDate) {
+        this.paymentDate = paymentDate;
+    }
+
+    public Timestamp getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Timestamp lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 }

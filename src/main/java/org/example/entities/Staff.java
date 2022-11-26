@@ -11,8 +11,8 @@ import java.sql.Timestamp;
 public class Staff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "staff_id", columnDefinition = "smallint")
-    private Short id;
+    @Column(name = "staff_id", columnDefinition = "tinyint")
+    private Byte id;
 
     @Column(name = "first_name", length = 45)
     private String firstName;
@@ -49,11 +49,11 @@ public class Staff {
     @UpdateTimestamp
     private Timestamp lastUpdate;
 
-    public Short getId() {
+    public Byte getId() {
         return id;
     }
 
-    public void setId(Short id) {
+    public void setId(Byte id) {
         this.id = id;
     }
 

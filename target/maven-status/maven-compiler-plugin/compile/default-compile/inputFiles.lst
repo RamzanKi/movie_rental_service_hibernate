@@ -1,0 +1,17 @@
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/City.java
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Language.java
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Country.java
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Address.java
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Inventory.java
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Rental.java
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/Main.java
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Payment.java
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Category.java
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Staff.java
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Store.java
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Feature.java
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Actor.java
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Rating.java
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/FilmText.java
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Film.java
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Customer.java
