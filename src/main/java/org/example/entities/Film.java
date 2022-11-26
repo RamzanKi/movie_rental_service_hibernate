@@ -67,10 +67,128 @@ public class Film {
     private Set<Category> categorySet = new HashSet<>();
 
     @ManyToMany
-    @JoinTable(name = "film_category",
+    @JoinTable(name = "film_actor",
             joinColumns = @JoinColumn(name = "film_id", referencedColumnName = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "actor_id"))
-    private Set<Actor> actorSet = new HashSet<>();
+    private Set<Actor> actorSet;
 
+    public Short getId() {
+        return id;
+    }
 
+    public void setId(Short id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Year getYear() {
+        return year;
+    }
+
+    public void setYear(Year year) {
+        this.year = year;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
+
+    public Language getOriginalLanguage() {
+        return originalLanguage;
+    }
+
+    public void setOriginalLanguage(Language originalLanguage) {
+        this.originalLanguage = originalLanguage;
+    }
+
+    public Byte getRentalDuration() {
+        return rentalDuration;
+    }
+
+    public void setRentalDuration(Byte rentalDuration) {
+        this.rentalDuration = rentalDuration;
+    }
+
+    public BigDecimal getRentalRate() {
+        return rentalRate;
+    }
+
+    public void setRentalRate(BigDecimal rentalRate) {
+        this.rentalRate = rentalRate;
+    }
+
+    public Short getLength() {
+        return length;
+    }
+
+    public void setLength(Short length) {
+        this.length = length;
+    }
+
+    public BigDecimal getReplacementCost() {
+        return replacementCost;
+    }
+
+    public void setReplacementCost(BigDecimal replacementCost) {
+        this.replacementCost = replacementCost;
+    }
+
+    public Rating getRating() {
+        return rating;
+    }
+
+    public void setRating(Rating rating) {
+        this.rating = rating;
+    }
+
+    public String getSpecialFeatures() {
+        return specialFeatures;
+    }
+
+    public void setSpecialFeatures(String specialFeatures) {
+        this.specialFeatures = specialFeatures;
+    }
+
+    public Timestamp getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Timestamp lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Set<Category> getCategorySet() {
+        return categorySet;
+    }
+
+    public void setCategorySet(Set<Category> categorySet) {
+        this.categorySet = categorySet;
+    }
+
+    public Set<Actor> getActorSet() {
+        return actorSet;
+    }
+
+    public void setActorSet(Set<Actor> actorSet) {
+        this.actorSet = actorSet;
+    }
 }

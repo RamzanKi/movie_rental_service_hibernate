@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -26,7 +25,7 @@ public class Category {
     @JoinTable(name = "film_category",
             joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "category_id"),
             inverseJoinColumns = @JoinColumn(name = "film_id", referencedColumnName = "film_id"))
-    private Set<Film> categorySet = new HashSet<>();
+    private Set<Film> filmSet;
 
     public Byte getId() {
         return id;
@@ -52,4 +51,11 @@ public class Category {
         this.lastUpdate = lastUpdate;
     }
 
+    public Set<Film> getFilmSet() {
+        return filmSet;
+    }
+
+    public void setFilmSet(Set<Film> categorySet) {
+        this.filmSet = categorySet;
+    }
 }
