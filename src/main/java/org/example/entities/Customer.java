@@ -100,7 +100,7 @@ public class Customer {
     public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
-
+//
     public Store getStore() {
         return store;
     }

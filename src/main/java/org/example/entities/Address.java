@@ -1,7 +1,8 @@
 package org.example.entities;
 
-import com.vividsolutions.jts.geom.Geometry;
+
 import jakarta.persistence.*;
+import org.locationtech.jts.geom.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
@@ -33,7 +34,8 @@ public class Address {
     @Column(length = 20)
     private String phone;
 
-    @Column(name = "location", columnDefinition = "geometry")
+    @Transient
+    @Column(name = "location")
     private Geometry location;
 
     @Column(name = "last_update")
