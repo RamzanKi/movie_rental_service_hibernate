@@ -5,9 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(schema = "movie", name = "payment")
@@ -38,7 +36,7 @@ public class Payment {
 
     @Column(name = "last_update")
     @UpdateTimestamp
-    private Timestamp lastUpdate;
+    private LocalDateTime lastUpdate;
 
     public Short getId() {
         return id;
@@ -88,11 +86,11 @@ public class Payment {
         this.paymentDate = paymentDate;
     }
 
-    public Timestamp getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Timestamp lastUpdate) {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 }

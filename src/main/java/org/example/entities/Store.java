@@ -3,7 +3,7 @@ package org.example.entities;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(schema = "movie", name = "store")
@@ -23,7 +23,7 @@ public class Store {
 
     @Column(name = "last_update")
     @UpdateTimestamp
-    private Timestamp lastUpdate;
+    private LocalDateTime lastUpdate;
 
     public Byte getId() {
         return id;
@@ -49,11 +49,11 @@ public class Store {
         this.address = address;
     }
 
-    public Timestamp getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Timestamp lastUpdate) {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 }

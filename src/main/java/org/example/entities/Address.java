@@ -4,7 +4,7 @@ import com.vividsolutions.jts.geom.Geometry;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(schema = "movie", name = "address")
@@ -38,7 +38,7 @@ public class Address {
 
     @Column(name = "last_update")
     @UpdateTimestamp
-    private Timestamp lastUpdate;
+    private LocalDateTime lastUpdate;
 
     public Short getId() {
         return id;
@@ -104,11 +104,11 @@ public class Address {
         this.location = location;
     }
 
-    public Timestamp getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Timestamp lastUpdate) {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 }

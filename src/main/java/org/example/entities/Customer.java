@@ -5,9 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(schema = "movie", name = "customer")
@@ -37,7 +35,7 @@ public class Customer {
 
     @Column(name = "last_update")
     @UpdateTimestamp
-    private Timestamp lastUpdate;
+    private LocalDateTime lastUpdate;
 
     @ManyToOne
     @JoinColumn(name = "store_id")
@@ -95,11 +93,11 @@ public class Customer {
         this.createDate = createDate;
     }
 
-    public Timestamp getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Timestamp lastUpdate) {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 

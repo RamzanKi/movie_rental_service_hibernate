@@ -1,6 +1,7 @@
 org/example/entities/Store.class
 org/example/Main.class
 org/example/entities/FilmText.class
+org/example/repository/RentalService.class
 org/example/entities/Customer.class
 org/example/entities/City.class
 org/example/entities/Feature.class
@@ -13,5 +14,6 @@ org/example/entities/Rating.class
 org/example/entities/Language.class
 org/example/entities/Address.class
 org/example/entities/Inventory.class
+org/example/repository/MovieRentalServiceDB.class
 org/example/entities/Actor.class
 org/example/entities/Rental.class

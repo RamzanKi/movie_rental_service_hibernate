@@ -1,5 +1,7 @@
 /Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/City.java
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/repository/RentalService.java
 /Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Language.java
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/repository/MovieRentalServiceDB.java
 /Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Country.java
 /Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Address.java
 /Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Inventory.java

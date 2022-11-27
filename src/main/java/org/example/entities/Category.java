@@ -3,7 +3,7 @@ package org.example.entities;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -19,7 +19,7 @@ public class Category {
 
     @Column(name = "last_update")
     @UpdateTimestamp
-    private Timestamp lastUpdate;
+    private LocalDateTime lastUpdate;
 
     @ManyToMany
     @JoinTable(name = "film_category",
@@ -43,11 +43,11 @@ public class Category {
         this.name = name;
     }
 
-    public Timestamp getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Timestamp lastUpdate) {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
