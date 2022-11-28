@@ -101,8 +101,6 @@ public class MovieRentalServiceDB implements RentalService{
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             lang = session.get(Language.class, languageId);
-            session.getTransaction().commit();
-        }
 
             Film film = new Film();
             film.setTitle(title);
@@ -118,8 +116,6 @@ public class MovieRentalServiceDB implements RentalService{
             film.setCategorySet(categorySet);
             film.setActorSet(actorSet);
 
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
             session.persist(film);
             session.getTransaction().commit();
             return film;
