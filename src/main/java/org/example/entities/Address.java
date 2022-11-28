@@ -2,7 +2,7 @@ package org.example.entities;
 
 
 import jakarta.persistence.*;
-import org.locationtech.jts.geom.*;
+import org.geolatte.geom.Geometry;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;

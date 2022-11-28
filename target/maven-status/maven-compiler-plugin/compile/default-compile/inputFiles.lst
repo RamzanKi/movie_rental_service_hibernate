@@ -15,5 +15,6 @@
 /Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Actor.java
 /Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Rating.java
 /Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/FilmText.java
+/Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/repository/RentalServiceDB.java
 /Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Film.java
 /Users/ramzankikaev/IdeaProjects/movie_rental_service_hibernate/src/main/java/org/example/entities/Customer.java

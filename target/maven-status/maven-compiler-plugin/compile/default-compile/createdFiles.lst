@@ -16,4 +16,6 @@ org/example/entities/Address.class
 org/example/entities/Inventory.class
 org/example/repository/MovieRentalServiceDB.class
 org/example/entities/Actor.class
+org/example/repository/RentalServiceDB.class
 org/example/entities/Rental.class
+org/example/entities/Film$RatingConverter.class

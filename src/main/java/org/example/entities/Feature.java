@@ -15,7 +15,7 @@ public enum Feature {
         this.value = value;
     }
 
-    public Feature getFeatureByValue(String val) {
+    public static Feature getFeatureByValue(String val) {
         if (isNull(val) || val.isEmpty()) {
             return null;
         }

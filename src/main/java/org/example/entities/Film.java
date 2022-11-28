@@ -70,7 +70,7 @@ public class Film {
     @JoinTable(name = "film_actor",
             joinColumns = @JoinColumn(name = "film_id", referencedColumnName = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "actor_id"))
-    private Set<Actor> actorSet;
+    private Set<Actor> actorSet = new HashSet<>();
 
     @Converter(autoApply = true)
     public static class RatingConverter implements AttributeConverter<Rating, String> {

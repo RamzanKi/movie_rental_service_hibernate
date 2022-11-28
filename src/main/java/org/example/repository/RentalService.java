@@ -2,8 +2,10 @@ package org.example.repository;
 
 import org.example.entities.*;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import java.time.Year;
 import java.util.Optional;
+import java.util.Set;
 
 public interface RentalService {
 
@@ -13,7 +15,6 @@ public interface RentalService {
 
     void rentFilm(Short customerId, Boolean isActive, Rental rental, Inventory inventory, Payment payment, Staff staff);
 
-    void addNewFilm(Film film);
-
+    Film addNewFilm(String title, String description, Year releaseYear, Byte languageId, Byte rentalDuration, BigDecimal rentalRate, Short length, BigDecimal replacementCost, Rating rating, String specialFeatures, Set<Category> categorySet, Set<Actor> actorSet);
     Optional<Customer> findById(Short id);
 }

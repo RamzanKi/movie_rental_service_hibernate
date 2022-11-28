@@ -7,11 +7,10 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.query.Query;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Properties;
+import java.time.Year;
+import java.util.*;
 
 public class MovieRentalServiceDB implements RentalService{
     private final SessionFactory sessionFactory;
@@ -57,7 +56,7 @@ public class MovieRentalServiceDB implements RentalService{
         customer.setAddress(address);
 
         try (Session session = sessionFactory.openSession()) {
-            session.getTransaction();
+            session.beginTransaction();
             session.persist(customer);
             session.getTransaction().commit();
             return customer;
@@ -74,8 +73,9 @@ public class MovieRentalServiceDB implements RentalService{
             Query<Rental> query = session.createQuery("from Rental where customer.id = :custId and inventory.id = :invId", Rental.class);
             query.setParameter("custId", customerId);
             query.setParameter("invId", inventoryId);
-            Rental rental = query.getSingleResult();
+            Rental rental = query.uniqueResult();
             rental.setReturnDate(LocalDateTime.now());
+
             Query<Rental> query2 = session.createQuery("from Rental where customer.id = :custId", Rental.class);
             query2.setParameter("custId", customerId);
             List<Rental> list = query2.list();
@@ -96,8 +96,34 @@ public class MovieRentalServiceDB implements RentalService{
     }
 
     @Override
-    public void addNewFilm(Film film) {
+    public Film addNewFilm(String title, String description, Year releaseYear, Byte languageId, Byte rentalDuration, BigDecimal rentalRate, Short length, BigDecimal replacementCost, Rating rating, String specialFeatures, Set<Category> categorySet, Set<Actor> actorSet) {
+        Language lang;
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            lang = session.get(Language.class, languageId);
+            session.getTransaction().commit();
+        }
 
+            Film film = new Film();
+            film.setTitle(title);
+            film.setDescription(description);
+            film.setYear(releaseYear);
+            film.setLanguage(lang);
+            film.setRentalDuration(rentalDuration);
+            film.setRentalRate(rentalRate);
+            film.setLength(length);
+            film.setReplacementCost(replacementCost);
+            film.setRating(rating);
+            film.setSpecialFeatures(specialFeatures);
+            film.setCategorySet(categorySet);
+            film.setActorSet(actorSet);
+
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.persist(film);
+            session.getTransaction().commit();
+            return film;
+        }
     }
 
     @Override
