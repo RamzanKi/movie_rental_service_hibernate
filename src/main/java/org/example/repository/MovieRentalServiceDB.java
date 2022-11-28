@@ -53,8 +53,8 @@ public class MovieRentalServiceDB implements RentalService{
         customer.setLastName(lastName);
         customer.setEmail(email);
         customer.setActive(isActive);
-//        customer.setStore(store);
-//        customer.setAddress(address);
+        customer.setStore(store);
+        customer.setAddress(address);
 
         try (Session session = sessionFactory.openSession()) {
             session.getTransaction();

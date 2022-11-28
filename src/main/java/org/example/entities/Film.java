@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.Year;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @Entity
 @Table(schema = "movie", name = "film")
@@ -49,6 +50,7 @@ public class Film {
     private BigDecimal replacementCost;
 
     @Column(name = "rating", columnDefinition = "enum('G', 'PG', 'PG-13', 'R', 'NC-17')")
+    @Convert(converter = RatingConverter.class)
     private Rating rating;
 
     @Column(name = "special_features", columnDefinition = "set('Trailers', 'Commentaries', 'Deleted Scenes', 'Behind the Scenes')")
@@ -69,6 +71,30 @@ public class Film {
             joinColumns = @JoinColumn(name = "film_id", referencedColumnName = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "actor_id"))
     private Set<Actor> actorSet;
+
+    @Converter(autoApply = true)
+    public static class RatingConverter implements AttributeConverter<Rating, String> {
+
+        @Override
+        public String convertToDatabaseColumn(Rating rating) {
+            if (rating == null) {
+                return null;
+            }
+            return rating.getValue();
+        }
+
+        @Override
+        public Rating convertToEntityAttribute(String val) {
+            if (val == null) {
+                return null;
+            }
+
+            return Stream.of(Rating.values())
+                    .filter(c -> c.getValue().equals(val))
+                    .findFirst()
+                    .orElseThrow(IllegalArgumentException::new);
+        }
+    }
 
     public Short getId() {
         return id;
@@ -190,3 +216,5 @@ public class Film {
         this.actorSet = actorSet;
     }
 }
+
+
