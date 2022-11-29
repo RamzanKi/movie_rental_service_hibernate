@@ -6,7 +6,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.Year;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -26,8 +25,9 @@ public class Film {
     @Type(type = "text")
     private String description;
 
+//    @Transient
     @Column(name = "release_year", columnDefinition = "year")
-    private Year year;
+    private Integer year;
 
     @ManyToOne
     @JoinColumn(name = "language_id")
@@ -120,11 +120,11 @@ public class Film {
         this.description = description;
     }
 
-    public Year getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(Year year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 

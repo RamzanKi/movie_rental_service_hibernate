@@ -9,7 +9,6 @@ import org.hibernate.query.Query;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.Year;
 import java.util.*;
 
 public class MovieRentalServiceDB implements RentalService{
@@ -76,6 +75,7 @@ public class MovieRentalServiceDB implements RentalService{
             Rental rental = query.uniqueResult();
             rental.setReturnDate(LocalDateTime.now());
 
+
             Query<Rental> query2 = session.createQuery("from Rental where customer.id = :custId", Rental.class);
             query2.setParameter("custId", customerId);
             List<Rental> list = query2.list();
@@ -96,7 +96,7 @@ public class MovieRentalServiceDB implements RentalService{
     }
 
     @Override
-    public Film addNewFilm(String title, String description, Year releaseYear, Byte languageId, Byte rentalDuration, BigDecimal rentalRate, Short length, BigDecimal replacementCost, Rating rating, String specialFeatures, Set<Category> categorySet, Set<Actor> actorSet) {
+    public Film addNewFilm(String title, String description, Integer releaseYear, Byte languageId, Byte rentalDuration, BigDecimal rentalRate, Short length, BigDecimal replacementCost, Rating rating, String specialFeatures, Set<Category> categorySet, Set<Actor> actorSet) {
         Language lang;
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();

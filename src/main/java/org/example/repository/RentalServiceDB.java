@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
+import org.hibernate.query.Query;
 
 import java.util.Properties;
 
@@ -51,5 +52,14 @@ public class RentalServiceDB {
         }
     }
 
-
+    public static void main(String[] args) {
+        RentalServiceDB rentalServiceDB = new RentalServiceDB();
+        Query<Film> ff;
+        try (Session session = rentalServiceDB.sessionFactory.openSession()) {
+            ff = session.createQuery("from Film where id = 1", Film.class);
+            Film film = ff.uniqueResult();
+            String specialFeatures = film.getSpecialFeatures();
+            System.out.println(specialFeatures);
+        }
+    }
 }

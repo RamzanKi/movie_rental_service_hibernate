@@ -7,7 +7,7 @@ import org.example.repository.MovieRentalServiceDB;
 import org.example.repository.RentalService;
 
 import java.math.BigDecimal;
-import java.time.Year;
+import java.util.Objects;
 
 public class Main {
 
@@ -16,11 +16,11 @@ public class Main {
 
         Customer customer = db.findById((short) 575).orElse(null);
 
-        db.createNewCustomer("testing", "db", "wqwe", false, null , null);
+        db.createNewCustomer("newMAN", "db", "wqwe", false, null , null);
 
-//        db.returnMovie(Objects.requireNonNull(customer).getId(), true, 830);
+        db.returnMovie(Objects.requireNonNull(customer).getId(), true, 830);
 
-        Film film = db.addNewFilm("testtest", "good", Year.parse("0"), (byte) 1, (byte) 7, new BigDecimal("5.99"), (short) 88, new BigDecimal("15.99"), Rating.R, null, null, null);
+        Film film = db.addNewFilm("testtest", "good", 2002, (byte) 1, (byte) 7, new BigDecimal("5.99"), (short) 88, new BigDecimal("15.99"), Rating.R, "behind the scenes,trailers", null, null);
         System.out.println(film.getTitle());
     }
 }
