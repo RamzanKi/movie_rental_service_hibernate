@@ -14,9 +14,12 @@ public class Main {
 
 //        db.createNewCustomer("newMAN", "db", "wqwe", db.getRandomStore(), "Test Street", "Nowhere", "yoyoyoyo", "mamaja", "12345", "88005053535");
 
-        db.returnMovie(Objects.requireNonNull(customer).getId(), true, 367);
+        db.returnMovie(Objects.requireNonNull(customer).getId(), 367);
 
 //        Film film = db.addNewFilm("newKino", "good", 2022, (byte) 1, (byte) 7, new BigDecimal("5.99"), (short) 88, new BigDecimal("15.99"), Rating.R, "behind the scenes,trailers", db.getRandomCategorySet(), db.getRandomActorSet());
 //        System.out.println(film.getTitle());
+
+//        Store randomStore = db.getRandomStore();
+//        db.getFilmInStore(customer, randomStore, 367, randomStore.getStaff());
     }
 }

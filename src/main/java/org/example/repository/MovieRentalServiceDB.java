@@ -107,16 +107,19 @@ public class MovieRentalServiceDB {
         }
     }
 
-    public void returnMovie(Short customerId, Boolean isActive, Integer inventoryId) {
+    public void returnMovie(Short customerId, Integer inventoryId) {
         try (Session session = sessionFactory.openSession()) {
             Customer customer = findById(customerId).orElse(null);
             Objects.requireNonNull(customer).setActive(false);
 
             session.beginTransaction();
-            Query<Rental> query = session.createQuery("from Rental where customer.id = :custId and inventory.id = :invId", Rental.class);
+            Query<Rental> query = session.createQuery("from Rental where customer.id = :custId and inventory.id = :invId and returnDate = null", Rental.class);
             query.setParameter("custId", customerId);
             query.setParameter("invId", inventoryId);
-            Rental rental = query.uniqueResult();
+            Rental rental = query.setMaxResults(1).uniqueResult();
+            if (rental == null) {
+                return;
+            }
             rental.setReturnDate(LocalDateTime.now());
 
 
@@ -134,8 +137,53 @@ public class MovieRentalServiceDB {
 
     }
 
-    public void rentFilm(Short customerId, Boolean isActive, Rental rental, Inventory inventory, Payment payment, Staff staff) {
+    public void rentMovie(Customer customer, Store store, Short customerId, Boolean isActive, Rental rental, Inventory inventory, Payment payment, Staff staff) {
+        try (Session session = sessionFactory.openSession()) {
+            customer.setStore(store);
+            customer.setActive(true);
 
+
+
+        }
+    }
+    public void getFilmInStore(Customer customer, Store store, Integer inventoryId, Staff staff) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            Query<Inventory> query = session.createQuery("from Inventory where id = :id and store.id = :store", Inventory.class);
+            query.setParameter("id", inventoryId);
+            query.setParameter("store", store.getId());
+            Inventory inventory = query.uniqueResult();
+            if (inventory == null) {
+                System.out.println("товара нет в наличии");
+            } else {
+                Query<Rental> queryRental = session.createQuery("from Rental where inventory.id = :invId and staff.id = :staff", Rental.class);
+                queryRental.setParameter("invId", inventoryId);
+                queryRental.setParameter("staff", staff.getId());
+                Rental rental = queryRental.setMaxResults(1).uniqueResult();
+//            for (Inventory inventory : list) {
+//                if (inventory.getId() == inventoryId) {
+                if (rental == null) {
+                    rental = new Rental();
+                    rental.setRentalDate(LocalDateTime.now());
+                    rental.setCustomer(customer);
+                    rental.setInventory(inventory);
+                    rental.setStaff(staff);
+                    session.save(rental);
+                } else if (rental.getReturnDate() != null) {
+                    rental.setRentalDate(LocalDateTime.now());
+                    rental.setReturnDate(null);
+                    rental.setCustomer(customer);
+                    rental.setInventory(inventory);
+                    rental.setStaff(staff);
+                    session.saveOrUpdate(rental);
+                } else {
+                    System.out.println("фильм недоступен для аренды");
+                }
+            }
+//                }
+//            }
+            session.getTransaction().commit();
+        }
     }
 
     public Film addNewFilm(String title, String description, Integer releaseYear, Byte languageId, Byte rentalDuration, BigDecimal rentalRate, Short length, BigDecimal replacementCost, Rating rating, String specialFeatures, Set<Category> categorySet, Set<Actor> actorSet) {
@@ -172,6 +220,7 @@ public class MovieRentalServiceDB {
             return customer;
         }
     }
+
 
     public Store getRandomStore() {
         try (Session session = sessionFactory.openSession()) {
