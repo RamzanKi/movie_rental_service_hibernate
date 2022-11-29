@@ -1,12 +1,15 @@
 package org.example.repository;
 
 import org.example.entities.*;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
-import org.hibernate.query.Query;
+import org.hibernate.criterion.Restrictions;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
 
 public class RentalServiceDB {
@@ -54,12 +57,27 @@ public class RentalServiceDB {
 
     public static void main(String[] args) {
         RentalServiceDB rentalServiceDB = new RentalServiceDB();
-        Query<Film> ff;
+//        Query<Film> ff;
+//        try (Session session = rentalServiceDB.sessionFactory.openSession()) {
+//            ff = session.createQuery("from Film where id = 1", Film.class);
+//            Film film = ff.uniqueResult();
+//            String specialFeatures = film.getSpecialFeatures();
+//            System.out.println(specialFeatures);
+//        }
+
         try (Session session = rentalServiceDB.sessionFactory.openSession()) {
-            ff = session.createQuery("from Film where id = 1", Film.class);
-            Film film = ff.uniqueResult();
-            String specialFeatures = film.getSpecialFeatures();
-            System.out.println(specialFeatures);
+            Criteria criteria = session.createCriteria(Actor.class);
+//            criteria.add(Restrictions.eq("id", (short)5));
+            criteria.add(Restrictions.sqlRestriction("1=1 order by rand()"));
+            criteria.setMaxResults(5);
+            List<Actor> list = criteria.list();
+            System.out.println(list.size());
+            HashSet<Actor> hashSet = new HashSet<>(list);
+
+
+//            Query from_actor = session.createQuery("from Actor");
+//            from_actor.list()
         }
+
     }
 }

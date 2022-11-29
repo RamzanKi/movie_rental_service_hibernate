@@ -8,7 +8,7 @@ import java.util.Set;
 
 public interface RentalService {
 
-    Customer createNewCustomer(String firstName, String lastName, String email, Boolean isActive, Store store, Address address);
+    Customer createNewCustomer(String firstName, String lastName, String email, Store store);
 
     void returnMovie(Short customerId, Boolean isActive, Integer inventoryId);
 

@@ -1,26 +1,22 @@
 package org.example;
 
 import org.example.entities.Customer;
-import org.example.entities.Film;
-import org.example.entities.Rating;
 import org.example.repository.MovieRentalServiceDB;
-import org.example.repository.RentalService;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Main {
 
     public static void main(String[] args) {
-        RentalService db = new MovieRentalServiceDB();
+        MovieRentalServiceDB db = new MovieRentalServiceDB();
 
-        Customer customer = db.findById((short) 575).orElse(null);
+        Customer customer = db.findById((short) 130).orElse(null);
 
-        db.createNewCustomer("newMAN", "db", "wqwe", false, null , null);
+//        db.createNewCustomer("newMAN", "db", "wqwe", db.getRandomStore(), "Test Street", "Nowhere", "yoyoyoyo", "mamaja", "12345", "88005053535");
 
-        db.returnMovie(Objects.requireNonNull(customer).getId(), true, 830);
+        db.returnMovie(Objects.requireNonNull(customer).getId(), true, 367);
 
-        Film film = db.addNewFilm("testtest", "good", 2002, (byte) 1, (byte) 7, new BigDecimal("5.99"), (short) 88, new BigDecimal("15.99"), Rating.R, "behind the scenes,trailers", null, null);
-        System.out.println(film.getTitle());
+//        Film film = db.addNewFilm("newKino", "good", 2022, (byte) 1, (byte) 7, new BigDecimal("5.99"), (short) 88, new BigDecimal("15.99"), Rating.R, "behind the scenes,trailers", db.getRandomCategorySet(), db.getRandomActorSet());
+//        System.out.println(film.getTitle());
     }
 }
