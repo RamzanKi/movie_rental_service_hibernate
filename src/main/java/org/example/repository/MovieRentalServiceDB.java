@@ -195,6 +195,14 @@ public class MovieRentalServiceDB {
                 else {
                     System.out.println("фильм недоступен для аренды");
                 }
+                BigDecimal cost = filmDAO.getCost(filmTitle);
+
+                Payment payment = new Payment();
+                payment.setCustomer(customer);
+                payment.setRental(rental);
+                payment.setStaff(staff);
+                payment.setAmount(cost);
+                paymentDAO.save(payment);
             }
             session.getTransaction().commit();
         }
