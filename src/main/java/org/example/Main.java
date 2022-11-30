@@ -1,9 +1,8 @@
 package org.example;
 
 import org.example.entities.Customer;
+import org.example.entities.Store;
 import org.example.repository.MovieRentalServiceDB;
-
-import java.util.Objects;
 
 public class Main {
 
@@ -12,14 +11,14 @@ public class Main {
 
         Customer customer = db.findById((short) 130).orElse(null);
 
-//        db.createNewCustomer("newMAN", "db", "wqwe", db.getRandomStore(), "Test Street", "Nowhere", "yoyoyoyo", "mamaja", "12345", "88005053535");
+//        db.createNewCustomer("heeey", "dbasdw", "wqwe@@", db.getRandomStore(), "Test Street", "Nowhere", "Ukraine", "Kyiv", "12345", "88005053535");
 
-        db.returnMovie(Objects.requireNonNull(customer).getId(), 367);
+//        db.returnMovie((short)130, 7);
 
-//        Film film = db.addNewFilm("newKino", "good", 2022, (byte) 1, (byte) 7, new BigDecimal("5.99"), (short) 88, new BigDecimal("15.99"), Rating.R, "behind the scenes,trailers", db.getRandomCategorySet(), db.getRandomActorSet());
+//        Film film = db.addNewFilm("neguyguywKino", "good", 2022, (byte) 1, (byte) 7, new BigDecimal("5.99"), (short) 88, new BigDecimal("15.99"), Rating.R, "behind the scenes,trailers", db.getRandomCategorySet(), db.getRandomActorSet());
 //        System.out.println(film.getTitle());
 
-//        Store randomStore = db.getRandomStore();
-//        db.getFilmInStore(customer, randomStore, 367, randomStore.getStaff());
+        Store randomStore = db.getRandomStore();
+        db.rentFilmInStore(customer, randomStore, randomStore.getStaff(), "ACADEMY DINOSAUR");
     }
 }

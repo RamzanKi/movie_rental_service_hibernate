@@ -1,5 +1,6 @@
 package org.example.repository;
 
+import org.example.dao.*;
 import org.example.entities.*;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -15,6 +16,23 @@ import java.util.*;
 
 public class MovieRentalServiceDB {
     public final SessionFactory sessionFactory;
+
+    private final ActorDAO actorDAO;
+    private final AddressDAO addressDAO;
+    private final CategoryDAO category;
+    private final CityDAO cityDAO;
+    private final CountryDAO countryDAO;
+    private final CustomerDAO customerDAO;
+    private final FilmDAO filmDAO;
+    private final FilmTextDAO filmTextDAO;
+    private final InventoryDAO inventoryDAO;
+    private final LanguageDAO languageDAO;
+    private final PaymentDAO paymentDAO;
+    private final RentalDAO rentalDAO;
+    private final StaffDAO staffDAO;
+    private final StoreDAO storeDAO;
+
+
 
     public MovieRentalServiceDB() {
         Properties properties = new Properties();
@@ -43,6 +61,21 @@ public class MovieRentalServiceDB {
                 .addAnnotatedClass(Staff.class)
                 .addAnnotatedClass(Store.class)
                 .buildSessionFactory();
+
+        actorDAO = new ActorDAO(sessionFactory);
+        addressDAO = new AddressDAO(sessionFactory);
+        category = new CategoryDAO(sessionFactory);
+        cityDAO = new CityDAO(sessionFactory);
+        countryDAO = new CountryDAO(sessionFactory);
+        customerDAO = new CustomerDAO(sessionFactory);
+        filmDAO = new FilmDAO(sessionFactory);
+        filmTextDAO = new FilmTextDAO(sessionFactory);
+        inventoryDAO = new InventoryDAO(sessionFactory);
+        languageDAO = new LanguageDAO(sessionFactory);
+        paymentDAO = new PaymentDAO(sessionFactory);
+        rentalDAO = new RentalDAO(sessionFactory);
+        staffDAO = new StaffDAO(sessionFactory);
+        storeDAO = new StoreDAO(sessionFactory);
     }
 
     public SessionFactory getSessionFactory() {
@@ -50,33 +83,27 @@ public class MovieRentalServiceDB {
     }
 
     public Address setAddress(String address, String district, String country, String city, String postalcode, String phone) {
-        Address fullAddress = new Address();
-        fullAddress.setAddress(address);
-        fullAddress.setDistrict(district);
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
-            Query<City> query = session.createQuery("from City where city = :city", City.class);
-            query.setParameter("city", city);
-            City cityObj;
-            try {
-                cityObj = query.uniqueResult();
-            } catch (Exception e) {
-                cityObj = null;
-            }
+
+            Address fullAddress = new Address();
+            fullAddress.setAddress(address);
+            fullAddress.setDistrict(district);
+
+            City cityObj = cityDAO.getCityByNameAndCountry(city, country);
             if (cityObj == null) {
-                Query<Country> countryQuery = session.createQuery("from Country where country = :country", Country.class);
-                countryQuery.setParameter("country", country);
-                Country countryObj = countryQuery.uniqueResult();
+                Country countryObj = countryDAO.getCountryByName(country);
                 if (countryObj == null) {
                     countryObj = new Country();
                     countryObj.setCountry(country);
                 }
-                session.saveOrUpdate(countryObj);
+                countryDAO.save(countryObj);
                 cityObj = new City();
                 cityObj.setCity(city);
                 cityObj.setCountry(countryObj);
             }
-            session.saveOrUpdate(cityObj);
+
+            cityDAO.save(cityObj);
             fullAddress.setCity(cityObj);
             fullAddress.setPostalCode(postalcode);
             fullAddress.setPhone(phone);
@@ -98,34 +125,30 @@ public class MovieRentalServiceDB {
         customer.setStore(store);
         customer.setAddress(fullAddress);
 
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
-            session.persist(fullAddress);
-            session.persist(customer);
+            addressDAO.save(fullAddress);
+            customerDAO.save(customer);
             session.getTransaction().commit();
             return customer;
         }
     }
 
     public void returnMovie(Short customerId, Integer inventoryId) {
-        try (Session session = sessionFactory.openSession()) {
-            Customer customer = findById(customerId).orElse(null);
-            Objects.requireNonNull(customer).setActive(false);
-
+        try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
-            Query<Rental> query = session.createQuery("from Rental where customer.id = :custId and inventory.id = :invId and returnDate = null", Rental.class);
-            query.setParameter("custId", customerId);
-            query.setParameter("invId", inventoryId);
-            Rental rental = query.setMaxResults(1).uniqueResult();
+
+            Customer customer = customerDAO.getById(customerId);
+            if (customer != null) {
+                customer.setActive(false);
+            }
+            Rental rental = rentalDAO.getRentalInformation(customerId, inventoryId);
             if (rental == null) {
                 return;
             }
             rental.setReturnDate(LocalDateTime.now());
 
-
-            Query<Rental> query2 = session.createQuery("from Rental where customer.id = :custId", Rental.class);
-            query2.setParameter("custId", customerId);
-            List<Rental> list = query2.list();
+            List<Rental> list = rentalDAO.getAllCustomerRentalInfo(customerId);
             for (Rental rent : list) {
                 if (rent.getReturnDate() == null) {
                     Objects.requireNonNull(customer).setActive(true);
@@ -137,27 +160,45 @@ public class MovieRentalServiceDB {
 
     }
 
-    public void rentMovie(Customer customer, Store store, Short customerId, Boolean isActive, Rental rental, Inventory inventory, Payment payment, Staff staff) {
-        try (Session session = sessionFactory.openSession()) {
-            customer.setStore(store);
-            customer.setActive(true);
-
-
-
-        }
-    }
-    public void getFilmInStore(Customer customer, Store store, Integer inventoryId, Staff staff) {
-        try (Session session = sessionFactory.openSession()) {
+    public void rentFilmInStore(Customer customer, Store store, Staff staff, String filmTitle) {
+        try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
-            Query<Inventory> query = session.createQuery("from Inventory where id = :id and store.id = :store", Inventory.class);
-            query.setParameter("id", inventoryId);
+
+//            InventoryDAO.getCountByTitleInStore()
+//            Query inventoryCount = session.createQuery("select count(*) from Inventory where film.title = :title and store.id = :store");
+//            inventoryCount.setParameter("title", filmTitle);
+//            inventoryCount.setParameter("store", store.getId());
+//            Long countInv = (Long) inventoryCount.uniqueResult();
+
+            Query<Integer> query1 = session.createQuery("select inventory.id from Rental where returnDate = null and staff.id = :st", Integer.class);
+            query1.setParameter("st", staff.getId());
+            List<Integer> resultList = query1.getResultList();
+
+            Query<Inventory> query = session.createQuery("from Inventory where film.title = :title and store.id = :store and id not in (:id_list)", Inventory.class);
+            query.setParameter("title", filmTitle);
             query.setParameter("store", store.getId());
-            Inventory inventory = query.uniqueResult();
+            query.setParameterList("id_list", resultList);
+            Inventory inventory = query.setMaxResults(1).uniqueResult();
+
+//            Query<Integer> select_inventory = session.createQuery("select inventory.id from Rental");
+//            List<Integer> list = select_inventory.list();
+//            if (list.contains(inventory.getId())) {
+//
+//            }
+
+//            Query rentalCount = session.createQuery("select count(*) from Rental where inventory.id = :invId and staff.id = :staff and returnDate = null");
+//            rentalCount.setParameter("invId", inventory.getId());
+//            rentalCount.setParameter("staff", staff.getId());
+//            Long countRent = (Long) rentalCount.uniqueResult();
+
+//            if (countRent >= countInv) {
+//                System.out.println("товар кончился");
+//            }
             if (inventory == null) {
                 System.out.println("товара нет в наличии");
             } else {
-                Query<Rental> queryRental = session.createQuery("from Rental where inventory.id = :invId and staff.id = :staff", Rental.class);
-                queryRental.setParameter("invId", inventoryId);
+                Query<Rental> queryRental = session.createQuery("from Rental where inventory.id = :invId and staff.id = :staff and returnDate != null", Rental.class);
+                queryRental.setParameter("invId", inventory.getId());
                 queryRental.setParameter("staff", staff.getId());
                 Rental rental = queryRental.setMaxResults(1).uniqueResult();
 //            for (Inventory inventory : list) {
@@ -169,14 +210,16 @@ public class MovieRentalServiceDB {
                     rental.setInventory(inventory);
                     rental.setStaff(staff);
                     session.save(rental);
-                } else if (rental.getReturnDate() != null) {
+                }
+                else if (rental.getReturnDate() != null) {
                     rental.setRentalDate(LocalDateTime.now());
                     rental.setReturnDate(null);
                     rental.setCustomer(customer);
                     rental.setInventory(inventory);
                     rental.setStaff(staff);
                     session.saveOrUpdate(rental);
-                } else {
+                }
+                else {
                     System.out.println("фильм недоступен для аренды");
                 }
             }
@@ -188,7 +231,7 @@ public class MovieRentalServiceDB {
 
     public Film addNewFilm(String title, String description, Integer releaseYear, Byte languageId, Byte rentalDuration, BigDecimal rentalRate, Short length, BigDecimal replacementCost, Rating rating, String specialFeatures, Set<Category> categorySet, Set<Actor> actorSet) {
         Language lang;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
             lang = session.get(Language.class, languageId);
 
@@ -206,11 +249,15 @@ public class MovieRentalServiceDB {
             film.setCategorySet(categorySet);
             film.setActorSet(actorSet);
 
-            session.persist(film);
+            filmDAO.save(film);
             session.getTransaction().commit();
             return film;
         }
     }
+
+
+
+
 
     public Optional<Customer> findById(Short id) {
         try (Session session = sessionFactory.openSession()) {
@@ -220,7 +267,6 @@ public class MovieRentalServiceDB {
             return customer;
         }
     }
-
 
     public Store getRandomStore() {
         try (Session session = sessionFactory.openSession()) {
