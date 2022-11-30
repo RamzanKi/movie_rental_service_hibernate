@@ -25,7 +25,6 @@ public class Film {
     @Type(type = "text")
     private String description;
 
-//    @Transient
     @Column(name = "release_year", columnDefinition = "year")
     private Integer year;
 
