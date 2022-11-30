@@ -189,7 +189,7 @@ public class Film {
     }
 
     public void setSpecialFeatures(String specialFeatures) {
-        this.specialFeatures = specialFeatures;
+        this.specialFeatures = specialFeatures.replaceAll("[,]\\s+", ",");
     }
 
     public LocalDateTime getLastUpdate() {

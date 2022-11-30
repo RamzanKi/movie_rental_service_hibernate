@@ -164,36 +164,10 @@ public class MovieRentalServiceDB {
         try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
 
-//            InventoryDAO.getCountByTitleInStore()
-//            Query inventoryCount = session.createQuery("select count(*) from Inventory where film.title = :title and store.id = :store");
-//            inventoryCount.setParameter("title", filmTitle);
-//            inventoryCount.setParameter("store", store.getId());
-//            Long countInv = (Long) inventoryCount.uniqueResult();
+            List<Integer> reservedInventories = inventoryDAO.getReservedInventories(staff);
 
-            Query<Integer> query1 = session.createQuery("select inventory.id from Rental where returnDate = null and staff.id = :st", Integer.class);
-            query1.setParameter("st", staff.getId());
-            List<Integer> resultList = query1.getResultList();
+            Inventory inventory = inventoryDAO.getAvailableInventory(filmTitle, store, reservedInventories);
 
-            Query<Inventory> query = session.createQuery("from Inventory where film.title = :title and store.id = :store and id not in (:id_list)", Inventory.class);
-            query.setParameter("title", filmTitle);
-            query.setParameter("store", store.getId());
-            query.setParameterList("id_list", resultList);
-            Inventory inventory = query.setMaxResults(1).uniqueResult();
-
-//            Query<Integer> select_inventory = session.createQuery("select inventory.id from Rental");
-//            List<Integer> list = select_inventory.list();
-//            if (list.contains(inventory.getId())) {
-//
-//            }
-
-//            Query rentalCount = session.createQuery("select count(*) from Rental where inventory.id = :invId and staff.id = :staff and returnDate = null");
-//            rentalCount.setParameter("invId", inventory.getId());
-//            rentalCount.setParameter("staff", staff.getId());
-//            Long countRent = (Long) rentalCount.uniqueResult();
-
-//            if (countRent >= countInv) {
-//                System.out.println("товар кончился");
-//            }
             if (inventory == null) {
                 System.out.println("товара нет в наличии");
             } else {
@@ -201,8 +175,7 @@ public class MovieRentalServiceDB {
                 queryRental.setParameter("invId", inventory.getId());
                 queryRental.setParameter("staff", staff.getId());
                 Rental rental = queryRental.setMaxResults(1).uniqueResult();
-//            for (Inventory inventory : list) {
-//                if (inventory.getId() == inventoryId) {
+
                 if (rental == null) {
                     rental = new Rental();
                     rental.setRentalDate(LocalDateTime.now());
@@ -223,8 +196,6 @@ public class MovieRentalServiceDB {
                     System.out.println("фильм недоступен для аренды");
                 }
             }
-//                }
-//            }
             session.getTransaction().commit();
         }
     }
