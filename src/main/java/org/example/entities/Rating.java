@@ -1,5 +1,7 @@
 package org.example.entities;
 
+import static java.util.Objects.isNull;
+
 public enum Rating {
 
     G("G"),
@@ -16,5 +18,18 @@ public enum Rating {
 
     public String getValue() {
         return value;
+    }
+
+    public static Rating getRatingByValue(String val) {
+        if (isNull(val) || val.isEmpty()) {
+            return null;
+        }
+        Rating[] values = Rating.values();
+        for (Rating r : values) {
+            if (r.value.equals(val)) {
+                return r;
+            }
+        }
+        return null;
     }
 }

@@ -214,6 +214,27 @@ public class Film {
     public void setActorSet(Set<Actor> actorSet) {
         this.actorSet = actorSet;
     }
+
+    @Override
+    public String toString() {
+        return "Film{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", year=" + year +
+                ", language=" + language +
+                ", originalLanguage=" + originalLanguage +
+                ", rentalDuration=" + rentalDuration +
+                ", rentalRate=" + rentalRate +
+                ", length=" + length +
+                ", replacementCost=" + replacementCost +
+                ", rating=" + rating +
+                ", specialFeatures='" + specialFeatures + '\'' +
+                ", lastUpdate=" + lastUpdate +
+                ", categorySet=" + categorySet +
+                ", actorSet=" + actorSet +
+                '}';
+    }
 }
 
 
