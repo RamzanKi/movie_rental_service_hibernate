@@ -227,8 +227,16 @@ public class MovieRentalServiceDB {
             film.setSpecialFeatures(specialFeatures);
             film.setCategorySet(categorySet);
             film.setActorSet(actorSet);
-
             filmDAO.save(film);
+
+            FilmText filmText = new FilmText();
+            filmText.setFilm(film);
+            filmText.setDescription(description);
+            filmText.setTitle(title);
+            filmText.setId(film.getId());
+
+            filmTextDAO.save(filmText);
+
             session.getTransaction().commit();
             return film;
         }
