@@ -1,7 +1,5 @@
 package org.example.entities;
 
-import static java.util.Objects.isNull;
-
 public enum Feature {
 
     TRAILERS("Trailers"),
@@ -15,17 +13,8 @@ public enum Feature {
         this.value = value;
     }
 
-    public static Feature getFeatureByValue(String val) {
-        if (isNull(val) || val.isEmpty()) {
-            return null;
-        }
-        Feature[] values = Feature.values();
-        for (Feature feature : values) {
-            if (feature.value.equals(val)) {
-                return feature;
-            }
-        }
-        return null;
+    public String getValue() {
+        return value;
     }
 }
 
